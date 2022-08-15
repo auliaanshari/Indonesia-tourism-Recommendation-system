@@ -1,201 +1,158 @@
 # Laporan Proyek Machine Learning - Aulia Anshari Fathurrahman
 
-## Domain Proyek
+## Project Overview
 
-Dalam proyek ini, saya akan menganalisis kumpulan data pemasaran bank dan membuat algoritma klasifikasi menggunakan feature engineering dan EDA. Domain proyek yang dipilih dalam proyek machine learning ini adalah mengenai keuangan dan improvised market campaigning dengan judul proyek "Bank Campaign Predictive Analytics".
+Dalam proyek ini, penulis akan menganalisis kumpulan data pariwisata di beberapa kota di Indonesia dan membuat algoritma sistem rekomendasi. Domain proyek yang dipilih dalam proyek machine learning ini adalah mengenai pariwisata dan sistem rekomendasi dengan judul proyek "Indonesia Tourism Recommendation System".
 
 ### Latar Belakang
 
-Pendapatan bank-bank Portugis menurun dan mereka ingin tahu apa yang harus dilakukan. Penelitian menunjukkan bahwa akar masalahnya adalah nasabah tidak melakukan setoran sesering biasanya. Deposito berjangka memungkinkan bank untuk menyimpan deposito untuk jangka waktu tertentu, memungkinkan bank untuk berinvestasi dalam instrumen keuangan hasil tinggi dan mendapatkan keuntungan. Selain itu, bank lebih cenderung membujuk nasabah deposito berjangka mereka untuk membeli produk lain seperti reksa dana dan asuransi untuk lebih meningkatkan pendapatan mereka. Untuk alasan ini, sebuah bank Portugis ingin mengidentifikasi nasabah lama yang kemungkinan akan menerima deposito berjangka dan memfokuskan upaya pemasarannya pada nasabah tersebut.
+Sebelum melakukan perjalanan, seseorang biasanya membuat rencana terlebih dahulu tentang tempat yang akan dikunjungi dan kapan harus berangkat. Hal ini dilakukan untuk menghindari masalah. Salah satunya adalah jarak dan durasi perjalanan yang berbeda dari yang diharapkan.
 
-Berdasarkan permasalahan diatas, pada proyek ini akan dibangun model machine learning untuk memprediksi nasabah lama yang kemungkinan akan menerima deposito berjangka. Dengan adanya model machine learning ini, di harapkan dapat membantu dan memudahkan analisa serta dapat mengambil keputusan yang tepat terkait pengidentifikasian nasabah dan dapat strategi marketing yang akan dilakukan bank. Kemudian untuk tahap pengembangan selanjutnya, di harapkan implementasi dari model ini dapat dijalankan pada sebuah aplikasi berbasis web ataupun android nantinya.
+Indonesia memiliki tempat-tempat wisata yang menarik seperti pedalaman yang indah, situs budaya dan sejarah yang menarik, pantai dan lain-lain. Namun karena Covid-19 baru-baru ini jumlah wisatawan menurun. Saat ini banyak wisata yang kembali beroperasi di beberapa kota di Indonesia, dan ini kembali menjadi momentum yang tepat untuk mendongkrak pariwisata.
 
-Referensi : [A data-driven approach to predict the success of bank telemarketing](https://www.sciencedirect.com/science/article/pii/S016792361400061X)
+Berdasarkan permasalahan diatas, pada proyek ini akan dibangun model machine learning untuk merekomendasikan pariwisata berdasarkan rating pengguna dan konten pariwisata. Dengan adanya model machine learning ini, diharapkan dapat membantu dan menunjang sektor pariwisata Indonesia. Kemudian untuk tahap pengembangan selanjutnya, di harapkan implementasi dari model ini dapat dijalankan pada sebuah aplikasi berbasis web ataupun android nantinya.
 
 ## Business Understanding
 
 ### Problem Statements
 
 Berdasarkan pada latar belakang di atas, permasalahan yang dapat diselesaikan pada proyek ini adalah sebagai berikut:
-- Bagaimana cara menganalisa data nasabah yang akan melakukan deposito berjangka dan melihat faktor yang memengaruhinya?  
-- Bagaimana cara melakukan pre-processing dan feature engineering pada data tersebut? 
-- Bagaimana cara membuat model machine learning untuk mengklasifikasi nasabah?
+- Bagaimana cara preprocessing dan menganalisa feature-feature data pariwisata yang diperlukan?  
+- Bagaimana cara membuat model yang merekomendasi object berdasarkan konten dan preferensi pengguna?
 
 ### Goals
 
 Berdasarkan pernyataan masalah di atas, tujuan dibuatnya proyek ini adalah :
-- Melakukan Exploratory Data Analysis pada data nasabah.
-- Melakukan pre-processing data dan feature engineering agar dapat menghasilkan inputan model yang baik. 
-- Melakukan pembuatan model klasifikasi nasabah yang akan melakukan deposito berjangka.
+- Melakukan pre-processing data Exploratory Data Analysis pada data pariwisata.
+- Melakukan pembuatan model sistem rekomendasi berdasarkan konten dan preferensi pengguna.
 
 ### Solution statements
 
 Solusi yang dapat dilakukan untuk memenuhi tujuan dari proyek ini di antaranya:
-- Melakukan Exploratory Data Analysis dengan menampilkan chart-chart terkait data, agar lebih mudah memahami data tersebut.
+- Melakukan Exploratory Data Analysis dengan menampilkan info dan chart terkait data, agar lebih mudah memahami data tersebut.
 - Melakukan pre-processing data : Handling missing value dan outlier.
-- Melakukan feature engineering : Encoding data, Standardization data, Feature selection dan Train tes split.
-- Melakukan pembangunan model menggunakan 5 model classifiers sklearn : Logistic Regression, Random Forest, KNN, Decision Tree dan SGD
-- menggunakan Pipeline model dan GridSearch agar pelatihan dapat berjalan lebih efektif
-- menggunakan metric evaluasi ROC
+- Melakukan feature engineering : Encoding data, Normalisasi data, Feature selection dan Train tes split.
+- Melakukan pembangunan model Content Based Filter menggunakan TF-IDF Vectorizer dan Cosine Similarity 
+- Melakukan pembangunan model Colaborative Filtering menggunakan RecommenderNet
+- Menampilkan hasil training dengan TensorBoard
+- Implementasi model dengan menampilkan top 5 menggunakan kedua metode
 
 ## Data Understanding
 
-Data ini menyangkut kampanye pemasaran langsung oleh lembaga perbankan Portugis. Kampanye pemasaran dilakukan melalui telepon. Beberapa kontak dengan pelanggan yang sama sering kali diperlukan untuk mengonfirmasi apakah suatu produk (deposito berjangka bank) berlangganan (“ya”) atau tidak (“tidak”). 
+Data ini menyangkut data pariwisata, data user dan rating yang diberikan pengguna. Pengguna memberikan rating untuk tempat yang telah dikunjunginnya. Rating yang diberikan pengguna dalam skala 1 - 5. 
 
-Data ini berjumlah 41188 baris dan 21 features, diurutkan berdasarkan tanggal (dari Mei 2008 - November 2010).
+Data ini terdiri 3 file berbeda untuk setiap konteksnya.
 
-Sumber: [Bank Marketing Campaign](https://archive.ics.uci.edu/ml/datasets/bank+marketing).
+### Variabel-variabel pada Indonesia Tourism Destination dataset adalah sebagai berikut:
 
-### Variabel-variabel pada Bank Marketing dataset adalah sebagai berikut:
+#### Tourism info:
 
-#### Attributes: Bank client data:
+![alt text](https://github.com/auliaanshari/Indonesia-tourism-Recommendation-system/blob/main/image/infotourism.png?raw=true)
 
-- Age : Age of the lead (numeric)
-- Job : type of job (Categorical)
-- Marital : Marital status (Categorical)
-- Education : Educational Qualification of the lead (Categorical)
-- Default: Does the lead has any default(unpaid)credit (Categorical)
-- Housing: Does the lead has any housing loan? (Categorical)
-- loan: Does the lead has any personal loan? (Categorical)
+#### Attributes of tourism data:
 
-#### Related with the last contact of the current campaign:
+- Place_Id : ID of tourism (numeric)
+- Place_Name : Name of tourism (Categorical)
+- Description : Description of tourism (Categorical)
+- Category : Category of tourism (Categorical)
+- City : City where tourism exists (Categorical)
+- Price : ticket Price (numeric)
+- Rating: rating of tourism (numeric)
+- Time_Minutes: minutes of ? (numeric)
+- Coordinate: coordinate of tourism (object)
+- Lat: latitude of tourism (numeric)
+- Long: longitude of tourism (numeric)
+- Unnamed 11: ?(numeric)
+- Unnamed 12: ? (numeric)
 
-- Contact : Contact communication type (Categorical)
-- Month : last contact month of year (Categorical)
-- day_of_week : last contact day of the week (categorical)
-- duration : last contact duration, in seconds (numeric). Important note: Duration highly affects the output target (e.g., if duration=0 then y='no'). Yet, the duration is not known before a call is performed. Also, after the end of the call y is obviously known. Thus, this input should only be included for benchmark purposes and should be discarded if the intention is to have a realistic predictive model.
+contains (437) data and 13 features
 
-#### Other attributes:
+#### User info:
 
-- campaign : number of contacts performed during this campaign and for this client (numeric)
-- pdays : number of days that passed by after the client was last contacted from a previous campaign(numeric; 999 means client was not previously contacted))
-- previous : number of contacts performed before this campaign and for this client (numeric)
-- poutcome : outcome of the previous marketing campaign (categorical)
+![alt text](https://github.com/auliaanshari/Indonesia-tourism-Recommendation-system/blob/main/image/infouser.png?raw=true)
 
-#### Social and economic context attributes
+#### Attributes of user data:
 
-- emp.var.rate : employment variation rate - quarterly indicator (numeric)
-- cons.price.idx : consumer price index - monthly indicator (numeric)
-- cons.conf.idx : consumer confidence index - monthly indicator (numeric)
-- euribor3m : euribor 3 month rate - daily indicator (numeric)
-- nr.employed : number of employees - quarterly indicator (numeric)
+- User_Id : ID of user (numeric)
+- Location : city where user from (Categorical)
+- Age : age of user (numeric)
 
-#### Output variable (desired target):
+contains (300) data and 3 features
 
-- y : has the client subscribed a term deposit? (binary: 'yes','no')
+#### User info:
 
-#### Data info:
+![alt text](https://github.com/auliaanshari/Indonesia-tourism-Recommendation-system/blob/main/image/inforating.png?raw=true)
 
-![alt text](https://github.com/auliaanshari/Bank-marketing-Predictive-analytics/blob/main/image/info.png?raw=true)
+#### Attributes of rating data:
+
+- User_Id : ID of user (numeric)
+- Place_Id : ID of tourism(numeric)
+- Place_Ratings : Ratings that user gives (categorical)
+
+contains (10000) data and 3 features
+
+Sumber: [Kaggle](https://www.kaggle.com/datasets/aprabowo/indonesia-tourism-destination)
 
 ### Exploratory Data Analysis
 
-- Cek distribusi data categorical terhadap y:
+- Cek distribusi data categorical:
 
-![alt text](https://github.com/auliaanshari/Bank-marketing-Predictive-analytics/blob/main/image/distofjobanddeposit.png?raw=true)
+![alt text](https://github.com/auliaanshari/Indonesia-tourism-Recommendation-system/blob/main/image/distofCategory.png?raw=true)
 
-![alt text](https://github.com/auliaanshari/Bank-marketing-Predictive-analytics/blob/main/image/distofmaritalanddeposit.png?raw=true)
+Dapat dilihat kategori budaya, taman hiburan dan cagar alam menjadi data yang cukup dominan dan tempat ibadah menjadi data yang paling sedikit pada dataset.
 
-![alt text](https://github.com/auliaanshari/Bank-marketing-Predictive-analytics/blob/main/image/distofeducationanddeposit.png?raw=true)
+![alt text](https://github.com/auliaanshari/Indonesia-tourism-Recommendation-system/blob/main/image/distofCity.png?raw=true)
 
-![alt text](https://github.com/auliaanshari/Bank-marketing-Predictive-analytics/blob/main/image/distofcontactanddeposit.png?raw=true)
+Dapat dilihat kota Jakarta dan Yogyakarta menjadi data dengan tourism yang paling banyak pada dataset.
 
-- Cek distribusi numerical data terhadap y:
+![alt text](https://github.com/auliaanshari/Indonesia-tourism-Recommendation-system/blob/main/image/AgeofUser.png?raw=true)
 
-![alt text](https://github.com/auliaanshari/Bank-marketing-Predictive-analytics/blob/main/image/DurationCallofCampaign.png?raw=true)
+Dapat dilihat distribusi umur dari user cukup beragam dengan user paling banyak berusia 30.
 
-![alt text](https://github.com/auliaanshari/Bank-marketing-Predictive-analytics/blob/main/image/DurationCallofJob.png?raw=true)
+![alt text](https://github.com/auliaanshari/Indonesia-tourism-Recommendation-system/blob/main/image/Top10LocofUser.png?raw=true)
 
-![alt text](https://github.com/auliaanshari/Bank-marketing-Predictive-analytics/blob/main/image/histofemp.var.rate.png?raw=true)
+Dapat dilihat top 10 user berdasarkan lokasi, paling banyak dari Bekasi, Jawa Barat.
 
-![alt text](https://github.com/auliaanshari/Bank-marketing-Predictive-analytics/blob/main/image/histofcons.price.idx.png?raw=true)
+![alt text](https://github.com/auliaanshari/Indonesia-tourism-Recommendation-system/blob/main/image/Top10Rating.png?raw=true)
 
-![alt text](https://github.com/auliaanshari/Bank-marketing-Predictive-analytics/blob/main/image/histofcons.conf.idx.png?raw=true)
+Dapat dilihat top 10 tourism berdasarkan rating, paling banyak pada Gunung Lalakon dan Pantai Parangtritis.
 
-- Cek korelasi data:
+![alt text](https://github.com/auliaanshari/Indonesia-tourism-Recommendation-system/blob/main/image/RatingUserGive.png?raw=true)
 
-![alt text](https://github.com/auliaanshari/Bank-marketing-Predictive-analytics/blob/main/image/corr.png?raw=true)
+Dapat dilihat rating yang diberikan user cukup seimbang.
+
+- Cek distribusi numerical data:
+
+![alt text](https://github.com/auliaanshari/Indonesia-tourism-Recommendation-system/blob/main/image/boxplotprice.png?raw=true)
+
+Dapat dilihat boxplot price terfokus kepada 0. ini kemungkinan harga ticket tourism kebanyak free atau tidak perlu ticket.
+
+![alt text](https://github.com/auliaanshari/Indonesia-tourism-Recommendation-system/blob/main/image/boxplotrating.png?raw=true)
+
+Dapat dilihat boxplot rating cukup seimbang.
 
 ## Data Preparation
 
 Berikut tahapan data preparation yang dilakukan:
 
-### Handle data noise
+### Handle missing value
 
-- Menghitung data null, dengan menjumlahkan null value menggunakan function isnull pandas. (hasil : tidak ditemukan data null)
-- Menghilangkan data dengan value 'unknown' pada semua kolom, dengan menggunakan function drop pandas. (hasil : shape data menjadi 30000 rows)
-- value 'unknown' dihilangkan karena value tersebut memberikan hasil yang bias kepada data target
+- Menghitung data null pada turism, dengan menjumlahkan null value menggunakan function isnull pandas. (hasil : ditemukan data null pada kolom time minutes)
+- drop kolom yang tidak diperlukan, dengan menggunakan function drop pandas. (hasil : drop Time minutes, unnamed 11 dan 12)
 
 ### Handle outlier data
 
 - Cek outlier data menggunakan boxplot
 
-![alt text](https://github.com/auliaanshari/Bank-marketing-Predictive-analytics/blob/main/image/boxplotofageb.png?raw=true)
+![alt text](https://github.com/auliaanshari/Indonesia-tourism-Recommendation-system/blob/main/image/boxplotprice.png?raw=true)
 
-![alt text](https://github.com/auliaanshari/Bank-marketing-Predictive-analytics/blob/main/image/boxplotofdurationb.png?raw=true)
+Kita melihat dist boxplot berpusat ke 0,
+itu karena beberapa nilai harga pariwisata adalah 0,
+asumsikan nilai 0 adalah tiket gratis, jadi kita tidak melihat ini sebagai outlier.
 
-![alt text](https://github.com/auliaanshari/Bank-marketing-Predictive-analytics/blob/main/image/boxplotofcampaignb.png?raw=true)
+### normalisasi numerical variable
 
-![alt text](https://github.com/auliaanshari/Bank-marketing-Predictive-analytics/blob/main/image/boxplotofcons.price.idx.png?raw=true)
-
-![alt text](https://github.com/auliaanshari/Bank-marketing-Predictive-analytics/blob/main/image/boxplotofcons.conf.idx.png?raw=true)
-
-![alt text](https://github.com/auliaanshari/Bank-marketing-Predictive-analytics/blob/main/image/boxplotofeuribor3m.png?raw=true)
-
-- Ditemukan 3 data yang memiliki outlier yaitu, ['age', 'duration', 'campaign']
-- Outlier dihilangkan dengan memfilter data pada kuartil pertama dikurangkan dengan 1.5 lalu dikalikan IQR, dan pada kuartil ketiga ditambahkan 1.5 lalu dikalikan IQR
-- filter = (data[cols] >= Q1 - 1.5 * IQR) & (data[cols] <= Q3 + 1.5 *IQR)
-- hasil :
-
-![alt text](https://github.com/auliaanshari/Bank-marketing-Predictive-analytics/blob/main/image/boxplotofage.png?raw=true)
-
-![alt text](https://github.com/auliaanshari/Bank-marketing-Predictive-analytics/blob/main/image/boxplotofduration.png?raw=true)
-
-![alt text](https://github.com/auliaanshari/Bank-marketing-Predictive-analytics/blob/main/image/boxplotofcampaign.png?raw=true)
-
-### Feature Engineering
-
-#### Frequency Encoding
-
-- Dilakukan grouping pada value [education] terlebih dahulu yang memiliki value 'basic.*y' menjadi satu value 'middle school'. Ini dilakukan agar value pada [education] tidak terlalu skewness
-- frequency encoding dilakukan pada 2 variabel, yaitu [education] dan [job]
--- dengan menghitung jumlah dari masing-masing value dan dibagi dengan banyak data (n[i] = total[n][i]/total[data])
--- setelah itu dilakukan mapping dan dibuatkan kolom baru pada dataset, lalu menghapus kolom lama
-
-#### Encoding month and day
-
-- Manual encoding menggunakan dictionary dan mapping
-
-#### Encoding [pdays] value
-
-- pada [pdays] terdapat value '999', berdasarkan informasi dari dataset, value ini memberikan informasi bahwa client ini belum pernah dihubungi sebelumnya, berbeda dengan value lain yang memaksudkan hari yang dilewati setelah client tersebut dihubungi
-- jadi pada value ini kita encoding menjadi '0' dengan menggunakan lambda
-
-#### Label Encoding
-
-- label encoding dilakukan menggunakan LabelEncoder sklearn.
-- data yang di encoding adalah ['housing', 'default', 'loan', 'y']
--- value kolom ini berisikan yes dan no
--- maka value tersebut akan diubah menjadi 0 dan 1
-
-#### One-hot Encoding
-
-- one-hot encoding menggunakan get_dummies pandas
-- data yang di encoding adalah ['poutcome', 'contact']
--- value kolom ini sebelumnya berupa kategori
--- jadi value tersebut akan dikeluarkan menjadi kolom baru dan berisikan identitasnya
--- setelah itu kolom lama dihapus 
-
-#### Target Encoding
-
-- target encoding dilakukan menggunakan TargetEncoder sklearn
-- data yang di encoding adalah ['marital']
--- target encoding mengubah value data sebelumnya dengan menghitung rata-rata value terhadap data target
--- setelah itu kolom lama dihapus
-
-### Standardization numerical variable
-
-- normalisasi data menggunakan StandarScaller sklearn
+- normalisasi data menggunakan MinMaxScaller sklearn
 - feature yang dipilih adalah yang berupa numerical feature
 - setelah itu data disimpan ke variabel baru
 
@@ -211,74 +168,71 @@ Berikut tahapan data preparation yang dilakukan:
 
 ## Modelling
 
-Pada proyek ini, Proses modeling dalam proyek ini menggunakan 5 algoritma machine learning yaitu Logistic Regression, Random Forest, KNN, Decision Tree dan SGD, kemudian membandingkan performanya.
+Pada proyek ini, Proses modeling dalam proyek ini menggunakan 2 metode sistem rekomendasi yaitu Content Based Filter dan Collaborative Filtering.
 
-### Build pipeline of classifiers
+### Content Based Filter
 
-Disini kita menggunakan pipeline agar training model dapat berjalan dengan efektif.
-Definisikan model-model yang telah diimport kedalam masing-masing pipeline, sehingga menjadi seperti:
+Pada modeling Content Based Filtering, langkah pertama yang dilakukan ialah penulis menggunakan TF-IDF Vectorizer untuk menemukan representasi fitur penting dari setiap kategori dan kota tourism. Fungsi yang penulis gunakan adalah tfidfvectorizer() dari library sklearn. Selanjutnya penulis melakukan fit dan transformasi ke dalam bentuk matriks. Keluarannya adalah matriks berukuran (437, 15). Nilai 437 merupakan ukuran data tourism dan 15 merupakan matriks kategori dan kota.
 
-LogisticRegression : 
-pipe_lr = Pipeline([('lr', LogisticRegression(random_state=random_state, n_jobs=n_jobs, max_iter=500))])
+Untuk menghitung derajat kesamaan (similarity degree) antar tourism, penulis menggunakan teknik cosine similarity dengan fungsi cosine_similarity dari library sklearn. Berikut dibawah ini adalah rumusnya:
 
-RandomForestClassifier : 
-pipe_rf = Pipeline([('rf', RandomForestClassifier(random_state=random_state, oob_score=True, n_jobs=n_jobs))])
+![alt text](https://github.com/auliaanshari/Indonesia-tourism-Recommendation-system/blob/main/image/cosine.png?raw=true)
 
-KNeighborsClassifier : 
-pipe_knn = Pipeline([('knn', KNeighborsClassifier(n_jobs=n_jobs))])
+Langkah selanjutnya yaitu menggunakan argpartition untuk mengambil sejumlah nilai k tertinggi dari similarity data kemudian mengambil data dari bobot (tingkat kesamaan) tertinggi ke terendah. Kemudian menguji akurasi dari sistem rekomendasi ini untuk menemukan rekomendasi tourism yang mirip dari tourism yang ingin dicari.
 
-DecisionTreeClassifier : 
-pipe_dt = Pipeline([('dt', DecisionTreeClassifier(random_state=random_state, max_features='auto'))])
+#### Kelebihan
 
-SGDClassifier : 
-pipe_sgd = Pipeline([('sgd', SGDClassifier(random_state=random_state, n_jobs=n_jobs, max_iter=1500))])
+Semakin banyak informasi yang diberikan pengguna, semakin baik akurasi sistem rekomendasi.
+#### Kekurangan
 
-### Set parameters for Grid Search
+Hanya dapat digunakan untuk fitur yang sesuai, seperti f, dan buku.
+Tidak mampu menentukan profil dari user baru.
 
-Kita melakukan hyperparameter tuning menggunakan Grid Search.
-Grid Search merupakan sebuah proses yang mencari secara mendalam melalui subset yang ditentukan secara manual dari ruang hyperparameter dari algoritma yang ditargetkan.
-Penentuan hyperparameter yang kita berikan sesuai dengan ketentuan inputan parameters yang diterima model. Lihat sklearn documentations terkait model.
+Berikut ini adalah konten yang dijadikan referensi untuk menentukan 5 rekomendasi wisata yang memiliki kesamaan feature yang sama:
 
-### Grid Search Object
+![alt text](https://github.com/auliaanshari/Indonesia-tourism-Recommendation-system/blob/main/image/cbfcari.png?raw=true)
 
-Buatkan object yang akan kita panggil saat memulai training. Pembuatan object menggunakan GridSearchCV dengan input pipeline model, hyperparameter dan metrics. 
--- GridSearchCV(pipe_{model}, param_grid=grid_params_{model},scoring='accuracy', cv=cv) 
+Terlihat pada tabel diatas bahwasannya saya akan menguji coba model berdasarkan 'Farm House Susu Lembang' dengan kategori Taman Hiburan dan kota Bandung.
 
-### Model Training
+Berikut ini adalah hasil rekomendasi tertinggi dari model Content Based Filtering berdasarkan referensi tourism diatas:
 
-Sebelum dilakukan training, buat dict kosong untuk tempat meletakkan hasil metrics training.
-Training dilakukan dengan memanggil object grid Search. Training data akan dilakukan sesuai hyperparameter yang telah di set, dan akan mengeluarkan best_score untuk disimpan ke dalam dict berisikan metrics.
+![alt text](https://github.com/auliaanshari/Indonesia-tourism-Recommendation-system/blob/main/image/hasilcbf.png?raw=true)
+
+
+### Collaborative Filtering
+
+Pada modeling Collaborative Filtering penulis menggunakan data hasil gabungan dari dua datasets yaitu torusim & rating. Langkah pertama adalah melakukan encode data User_Id & Place_Id setelah di encode lakukan mapping ke dalam data yang digunakan dan juga mengubah nilai rating menjadi float. Selanjutnya ialah membagi data untuk training sebesar 80% dan validasi sebesar 20%.
+
+Lakukan proses embedding terhadap data tourism dan pengguna. Lalu lakukan operasi perkalian dot product antara embedding pengguna dan tourism. Selain itu, penulis juga menambahkan bias untuk setiap pengguna dan tourism. Skor kecocokan ditetapkan dalam skala [0,1] dengan fungsi aktivasi sigmoid. Untuk mendapatkan rekomendasi tourism, penulis mengambil sampel user secara acak dan mendefinisikan variabel not_visited yang merupakan daftar tourism yang belum pernah dikunjungi oleh pengguna.
+
+#### Kelebihan
+
+Tidak memerlukan atribut untuk setiap itemnya.
+Dapat membuat rekomendasi tanpa harus selalu menggunakan dataset yang lengkap.
+Unggul dari segi kecepatan dan skalabilitas.
+Rekomendasi tetap akan berkerja dalam keadaan dimana konten sulit dianalisi sekalipun
+
+#### Kekurangan
+
+Membutuhkan parameter rating, sehingga jika ada item baru sistem tidak akan merekomendasikan item tersebut.
+
+Berikut ini adalah hasil rekomendasi tourism tertinggi terhadap user 121:
+
+![alt text](https://github.com/auliaanshari/Indonesia-tourism-Recommendation-system/blob/main/image/hasilcf.png?raw=true)
 
 ## Evaluation
 
-Pada proyek ini, metrik evaluasi yang digunakan untuk mengukur kinerja model yaitu menggunakan metrik akurasi dan ROC. Akurasi di sini merupakan tingkat keakuratan data prediksi yang didasarkan dari data latih pada model, ROC sendiri merupakan Receiver Operating Characteristic, semacam alat ukur performance untuk classification problem dalam menentukan threshold dari suatu model. Kita menggunakan Kurva ROC untuk menganalisis kekuatan prediksi pengklasifikasi: kurva tersebut menyediakan cara visual untuk mengamati bagaimana perubahan treshold klasifikasi model memengaruhi kinerja model. Kurva memungkinkan kita untuk memilih treshold klasifikasi yang memungkinkan model kita untuk mengidentifikasi sebanyak mungkin positif sejati sambil meminimalkan positif palsu.
+Metrik evaluasi yang digunakan pada proyek ini adalah RMSE (Root Mean Squared Error).
+RMSE ini bekerja dengan menjumlahkan kuadrat selisih nilai prediksi dengan nilai asli dan merata-ratakannya, setelah itu diakarkan. Dengan itu, semakin kecil nilai RMSE artinya semakin kecil error atau kesalahan dari suatu model.
 
-### ROC
+![alt text](https://github.com/auliaanshari/Indonesia-tourism-Recommendation-system/blob/main/image/rmse.png?raw=true)
 
-Kurva ROC dibuat berdasarkan nilai telah didapatkan pada perhitungan dengan confusion matrix, yaitu antara False Positive Rate dengan True Positive Rate. Dimana:
--- False Positive Rate (FPR) = False Positive / (False Positive + True Negative)
--- True Positive Rate (TPR) = True Positive / (True Positive + False Negative)
+Hasil RMSE terakhir dari training model adalah 0.3279 untuk data train dan 0.3589 untuk data test/validation. Hasil ini sudah cukup baik dalam memberikan rekomendasi yang sesuai dengan preferensi pengguna sesuai dengan tujuan proyek.
+lalu terakhir plotting RMSE ke tensorBoard.
 
-Untuk membaca kurva ROC sangat mudah, kinerja algoritma klasifikasi adalah:
--- JELEK, jika kurva yang dihasilkan mendekati garis baseline atau garis yang melintang dari titik 0,0.
--- BAGUS, jika kurva mendekati titik 0,1.
+### TensorBoard
 
-####  ROC AUC
+![alt text](https://github.com/auliaanshari/Indonesia-tourism-Recommendation-system/blob/main/image/tensorboard.png?raw=true)
 
-Area Under Curve (AUC) membuat kita mudah dalam membandingkan model satu dengan yang lainnya. AUC adalah luas area di bawah curve ROC, atau integral dari fungsi ROC. semakin tinggi nilai AUC, maka semakin bagus pula hasil model kita
-
-### Model result
-
-Berikut plot hasil training dari model :
-
-![alt text](https://github.com/auliaanshari/Bank-marketing-Predictive-analytics/blob/main/image/modelresult.png?raw=true)
-
-Berikut tabel hasil metrics:
-
-![alt text](https://github.com/auliaanshari/Bank-marketing-Predictive-analytics/blob/main/image/tabelhasil.png?raw=true)
-
-#### Dapat kita ambil kesimpulan bahwa : model terbaik yaitu menggunakan RandomForestClassifier dengan accuracy [0.923578] dan roc_auc [0.935259] 
-
-Berikut plot ROC Curve dari RandomForestClassifier terhadap data kita:
-
-![alt text](https://github.com/auliaanshari/Bank-marketing-Predictive-analytics/blob/main/image/ROCcurve.png?raw=true)
+# Referensi
+[GetLoc](https://github.com/AgungP88/getloc-apps)
